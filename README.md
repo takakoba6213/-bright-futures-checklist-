@@ -1,2 +1,21 @@
-# -bright-futures-checklist-
-Bright Futures 4th edition準拠チェックリスト
+# 🩺 Bright Futures 健診チェックリスト
+
+**Bright Futures 第4版（AAP, 2017）**準拠の総合診療医向け健診チェックリストです。
+
+## 👉 [チェックリストを開く](https://takakoba6213.github.io/-bright-futures-checklist-/)
+
+---
+
+## 📋 概要
+
+| 項目 | 内容 |
+|------|------|
+| 対象 | 出生前〜21歳（全21健診） |
+| 準拠 | Bright Futures 4th Edition（AAP 2017） |
+| 対象者 | 総合診療医・家庭医・小児科医 |
+
+## ✅ 主な機能
+- 全21回の健診チェックリスト（出生前〜21歳）
+- 項目をクリックするだけでチェック（自動保存）
+- キーワード検索・フィルター機能
+- 印刷対応・スマートフォン対応
