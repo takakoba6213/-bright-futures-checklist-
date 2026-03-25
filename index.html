@@ -1,0 +1,1603 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bright Futures 健診チェックリスト</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=IBM+Plex+Mono:wght@400;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d2240;
+    --navy-mid: #1a3a5c;
+    --blue: #1d6fa4;
+    --blue-light: #2e8fcf;
+    --sky: #e8f4fd;
+    --sky-deep: #cce7f8;
+    --teal: #0f8a7a;
+    --teal-light: #e6f5f3;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --rose: #be185d;
+    --rose-light: #fdf2f8;
+    --slate: #64748b;
+    --slate-light: #f1f5f9;
+    --white: #ffffff;
+    --ink: #0f172a;
+    --border: #d1dce8;
+    --check-yes: #16a34a;
+    --check-no: #e5e7eb;
+    --radius: 8px;
+    --shadow: 0 2px 12px rgba(13,34,64,.10);
+    --shadow-lg: 0 8px 32px rgba(13,34,64,.16);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans JP', sans-serif;
+    background: #f0f5fa;
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ───────────────────────────────────── */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 60%, #1a4a7a 100%);
+    padding: 32px 24px 28px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(13,34,64,.35);
+  }
+
+  .header-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .header-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .header-icon {
+    width: 48px; height: 48px;
+    background: rgba(255,255,255,.12);
+    border: 2px solid rgba(255,255,255,.25);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .header-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px;
+    color: #fff;
+    letter-spacing: .01em;
+    line-height: 1.2;
+  }
+
+  .header-sub {
+    font-size: 11px;
+    color: rgba(255,255,255,.65);
+    font-family: 'IBM Plex Mono', monospace;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .header-stats {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .stat-chip {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 20px;
+    padding: 6px 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: rgba(255,255,255,.9);
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  .stat-chip strong {
+    color: #7dd3fc;
+    font-weight: 600;
+  }
+
+  /* ── PROGRESS BAR ─────────────────────────────── */
+  .progress-bar {
+    height: 3px;
+    background: rgba(255,255,255,.15);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #38bdf8, #7dd3fc);
+    transition: width .4s ease;
+    width: 0%;
+  }
+
+  /* ── LAYOUT ───────────────────────────────────── */
+  .app {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 24px 16px 80px;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* ── SIDEBAR ──────────────────────────────────── */
+  .sidebar {
+    position: sticky;
+    top: 130px;
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .sidebar-section {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--slate);
+    font-weight: 600;
+    background: var(--slate-light);
+  }
+
+  .nav-group { border-bottom: 1px solid var(--border); }
+
+  .nav-group-header {
+    padding: 8px 16px;
+    font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--blue);
+    font-weight: 600;
+    background: rgba(29,111,164,.04);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 16px 7px 24px;
+    cursor: pointer;
+    transition: background .15s;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 12.5px;
+    gap: 8px;
+  }
+
+  .nav-item:hover { background: var(--sky); }
+  .nav-item.active { background: var(--sky-deep); color: var(--blue); font-weight: 500; }
+
+  .nav-progress {
+    width: 32px;
+    height: 4px;
+    background: var(--check-no);
+    border-radius: 2px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .nav-progress-fill {
+    height: 100%;
+    background: var(--check-yes);
+    border-radius: 2px;
+    transition: width .3s;
+  }
+
+  /* ── MAIN CONTENT ─────────────────────────────── */
+  .main { display: flex; flex-direction: column; gap: 20px; }
+
+  /* ── VISIT CARD ───────────────────────────────── */
+  .visit-card {
+    background: var(--white);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: box-shadow .2s;
+  }
+
+  .visit-card:target { scroll-margin-top: 130px; }
+
+  .visit-header {
+    padding: 16px 20px;
+    background: linear-gradient(to right, var(--navy), var(--navy-mid));
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    user-select: none;
+  }
+
+  .visit-header-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .visit-badge {
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.25);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: rgba(255,255,255,.9);
+    white-space: nowrap;
+    flex-shrink: 0;
+    letter-spacing: .04em;
+  }
+
+  .visit-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    font-family: 'DM Serif Display', serif;
+  }
+
+  .visit-subtitle {
+    font-size: 11px;
+    color: rgba(255,255,255,.6);
+    font-family: 'IBM Plex Mono', monospace;
+    margin-top: 2px;
+  }
+
+  .visit-header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+  }
+
+  .visit-complete-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: #7dd3fc;
+  }
+
+  .collapse-btn {
+    width: 28px; height: 28px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-size: 14px;
+    transition: background .15s, transform .2s;
+    flex-shrink: 0;
+  }
+
+  .visit-card.collapsed .collapse-btn { transform: rotate(-90deg); }
+  .visit-card.collapsed .visit-body { display: none; }
+
+  /* ── VISIT BODY ───────────────────────────────── */
+  .visit-body { padding: 0; }
+
+  .visit-section-header {
+    padding: 7px 20px;
+    background: linear-gradient(to right, rgba(29,111,164,.08), transparent);
+    border-bottom: 1px solid var(--border);
+    border-left: 3px solid var(--blue);
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--blue);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* ── CHECK ROW ─────────────────────────────────── */
+  .check-row {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    border-bottom: 1px solid rgba(209,220,232,.5);
+    transition: background .12s;
+    cursor: pointer;
+  }
+
+  .check-row:last-child { border-bottom: none; }
+  .check-row:hover { background: var(--sky); }
+  .check-row.checked { background: linear-gradient(to right, rgba(22,163,74,.04), transparent); }
+
+  .check-cell {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 0 10px 10px;
+  }
+
+  .checkbox {
+    width: 18px; height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .15s;
+    flex-shrink: 0;
+    margin-top: 1px;
+    background: var(--white);
+  }
+
+  .check-row.checked .checkbox {
+    background: var(--check-yes);
+    border-color: var(--check-yes);
+    box-shadow: 0 0 0 3px rgba(22,163,74,.12);
+  }
+
+  .checkbox-check {
+    display: none;
+    color: #fff;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .check-row.checked .checkbox-check { display: block; }
+
+  .row-content {
+    padding: 9px 20px 9px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .row-label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.4;
+  }
+
+  .check-row.checked .row-label {
+    text-decoration: line-through;
+    color: var(--slate);
+  }
+
+  .row-detail {
+    font-size: 12px;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+
+  /* ── TAGS ─────────────────────────────────────── */
+  .tag {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    letter-spacing: .04em;
+    margin-right: 4px;
+    vertical-align: middle;
+  }
+
+  .tag-universal { background: #dbeafe; color: #1d4ed8; }
+  .tag-selective { background: #fef3c7; color: #92400e; }
+  .tag-all { background: #f0fdf4; color: #166534; }
+  .tag-imm { background: #fdf4ff; color: #7e22ce; }
+
+  /* ── MINI ALERT ───────────────────────────────── */
+  .alert-row {
+    background: linear-gradient(to right, rgba(217,119,6,.06), transparent);
+    border-left: 3px solid var(--amber);
+    padding: 8px 20px 8px 20px;
+    font-size: 11.5px;
+    color: #92400e;
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    border-bottom: 1px solid rgba(209,220,232,.4);
+  }
+
+  /* ── RESET BUTTON ─────────────────────────────── */
+  .card-reset {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px 16px;
+    border-top: 1px solid var(--border);
+    background: var(--slate-light);
+  }
+
+  .btn-reset {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--slate);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all .15s;
+  }
+
+  .btn-reset:hover { background: var(--white); color: var(--rose); border-color: var(--rose); }
+
+  /* ── GLOBAL ACTIONS ───────────────────────────── */
+  .global-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+
+  .btn {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 7px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all .15s;
+    font-weight: 600;
+    letter-spacing: .03em;
+  }
+
+  .btn-primary { background: var(--blue); color: #fff; }
+  .btn-primary:hover { background: var(--blue-light); }
+  .btn-outline { background: var(--white); color: var(--slate); border-color: var(--border); }
+  .btn-outline:hover { background: var(--sky); color: var(--blue); border-color: var(--blue); }
+  .btn-danger { background: var(--white); color: var(--rose); border-color: var(--border); }
+  .btn-danger:hover { background: var(--rose-light); border-color: var(--rose); }
+
+  /* ── SEARCH ───────────────────────────────────── */
+  .search-bar {
+    position: relative;
+    margin-bottom: 4px;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 9px 12px 9px 36px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'Noto Sans JP', sans-serif;
+    font-size: 13px;
+    background: var(--white);
+    color: var(--ink);
+    outline: none;
+    transition: border .15s, box-shadow .15s;
+    box-shadow: var(--shadow);
+  }
+
+  .search-input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(29,111,164,.12);
+  }
+
+  .search-icon {
+    position: absolute;
+    left: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--slate);
+    font-size: 15px;
+    pointer-events: none;
+  }
+
+  /* ── FILTERS ──────────────────────────────────── */
+  .filter-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 4px;
+  }
+
+  .filter-chip {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--slate);
+    transition: all .15s;
+    font-weight: 600;
+    letter-spacing: .03em;
+  }
+
+  .filter-chip.active { background: var(--navy); color: #fff; border-color: var(--navy); }
+  .filter-chip:hover:not(.active) { background: var(--sky); color: var(--blue); border-color: var(--blue); }
+
+  /* ── PRINT ────────────────────────────────────── */
+  @media print {
+    .header { position: relative; box-shadow: none; }
+    .sidebar { display: none; }
+    .app { grid-template-columns: 1fr; }
+    .global-actions, .search-bar, .filter-row, .card-reset { display: none; }
+    .visit-card.collapsed .visit-body { display: block !important; }
+    .check-row { page-break-inside: avoid; }
+  }
+
+  /* ── RESPONSIVE ───────────────────────────────── */
+  @media (max-width: 768px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { position: relative; top: 0; }
+    .header-title { font-size: 18px; }
+  }
+
+  /* ── SECTION ICONS ────────────────────────────── */
+  .section-icon { font-size: 13px; }
+
+  /* ── EMPTY STATE ──────────────────────────────── */
+  .empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--slate);
+    font-size: 14px;
+  }
+
+  /* Tooltip */
+  [title] { cursor: help; }
+
+  /* Highlight when searched */
+  .highlight { background: #fef08a; border-radius: 2px; }
+
+  /* Scroll smooth */
+  html { scroll-behavior: smooth; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="progress-bar"><div class="progress-fill" id="globalProgress"></div></div>
+  <div class="header-inner">
+    <div class="header-brand">
+      <div class="header-icon">🩺</div>
+      <div>
+        <div class="header-title">Bright Futures 健診チェックリスト</div>
+        <div class="header-sub">AAP 4th Edition · 総合診療医向け · 全健診対応</div>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="stat-chip">健診 <strong id="totalVisits">21</strong> 回</div>
+      <div class="stat-chip">達成 <strong id="doneCount">0</strong>/<span id="totalItems">0</span></div>
+      <div class="stat-chip">進捗 <strong id="pctDone">0</strong>%</div>
+    </div>
+  </div>
+</header>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-section">健診ナビゲーション</div>
+    <div id="navContent"></div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+    <div class="search-bar">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="項目を検索 (例：視力、鉛、授乳、ASD...)" oninput="handleSearch(this.value)">
+    </div>
+
+    <div class="filter-row" id="filterRow">
+      <span class="filter-chip active" onclick="setFilter('all', this)">すべて</span>
+      <span class="filter-chip" onclick="setFilter('infancy', this)">🍼 乳児期</span>
+      <span class="filter-chip" onclick="setFilter('early', this)">🧒 幼児期</span>
+      <span class="filter-chip" onclick="setFilter('middle', this)">📚 学童期</span>
+      <span class="filter-chip" onclick="setFilter('adolescent', this)">🌱 思春期</span>
+    </div>
+
+    <div class="global-actions">
+      <button class="btn btn-primary" onclick="expandAll()">▼ 全て展開</button>
+      <button class="btn btn-outline" onclick="collapseAll()">▲ 全て折りたたむ</button>
+      <button class="btn btn-outline" onclick="window.print()">🖨 印刷</button>
+      <button class="btn btn-danger" onclick="resetAll()">↺ リセット</button>
+    </div>
+
+    <div id="visitContainer"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════════════
+const VISIT_DATA = [
+  {
+    id: "prenatal", group: "infancy",
+    badge: "出生前", title: "出生前（Prenatal）健診", subtitle: "妊娠中 — 保護者面接",
+    note: "出生後初回接触前に保護者と面接。医療機関との関係構築を行う。",
+    sections: [
+      { name: "スクリーニング", icon: "🔬", items: [
+        { label: "新生児スクリーニングの説明", detail: "目的・重要性を説明。出生前検査結果・エコー異常・母体疾患の確認", tag: "all" },
+        { label: "予防接種の重要性を説明", detail: "定期接種スケジュールの開始について案内", tag: "imm" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "社会的決定要因（SDH）確認", detail: "住居・食料の安全、DV・環境リスク（鉛・カビ）、タバコ・アルコール・薬物" },
+        { label: "親・家族の健康", detail: "産前うつスクリーニング（過去2週間の気分）、食事・運動、補完代替医療" },
+        { label: "授乳・栄養の計画", detail: "母乳育児の計画確認、WIC/SNAPの紹介、鉄強化粉ミルクの選択肢" },
+        { label: "新生児ケアの説明", detail: "かかりつけ医紹介、割礼の利点・リスク説明、手洗い指導、外出制限" },
+        { label: "安全（Safety）", detail: "後向きチャイルドシート設置、熱中症予防（車内放置禁止）、安全な睡眠、銃の安全管理（自宅・訪問先）" },
+      ]}
+    ]
+  },
+  {
+    id: "newborn", group: "infancy",
+    badge: "新生児", title: "新生児（Newborn）健診", subtitle: "退院時",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "社会・自助：親を見る・眼を合わせる", detail: "覚醒時に親の顔を見る。声に鎮まる" },
+        { label: "言語：泣き声・不快表現", detail: "泣き声・表情・体動で不快を伝える" },
+        { label: "粗大運動：原始反射", detail: "モロー反射・緊張性頸反射、視聴覚刺激への反応" },
+        { label: "微細運動：把握反射", detail: "手を握りしめる、他者の指を把握する" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長・体重・頭囲・weight-for-length", detail: "成長曲線にプロット" },
+        { label: "診察：全身", detail: "黄疸・先天奇形・皮膚病変・眼（赤色反射）・心雑音・大腿動脈・脊柱・外性器" },
+        { label: "Ortolani・Barlow法", detail: "発育性股関節形成不全スクリーニング" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "聴覚スクリーニング", detail: "自動ABRまたはOAEによる新生児聴覚スクリーニング", tag: "universal" },
+        { label: "新生児マス・スクリーニング（代謝・遺伝）", detail: "ガスリー法等。退院前の採血確認", tag: "universal" },
+        { label: "経皮/血清ビリルビン測定", detail: "黄疸リスク評価", tag: "universal" },
+        { label: "Critical CHD：パルスオキシメトリー", detail: "生後24〜48時間後に測定。右手と下肢の比較", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "血圧・視力（選択的）", detail: "リスクがある場合に実施", tag: "selective" },
+      ]},
+      { name: "予防接種", icon: "💉", items: [
+        { label: "B型肝炎ワクチン（HepB）第1回", detail: "退院前投与推奨。CDCスケジュール確認", tag: "imm" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（住居・食料・DV・薬物）", detail: "WIC/SNAP紹介、National DV Hotline: 800-799-SAFE" },
+        { label: "退院後サポート・同胞の適応", detail: "家族・友人のサポート活用。身体接触の重要性" },
+        { label: "新生児の行動・ケア", detail: "気質把握、スキンケア、おむつ替え、へその緒ケア（乾燥・臭い・出血確認）、手洗い" },
+        { label: "授乳（母乳）", detail: "8〜12回/日、ビタミンD 400IU/日開始。授乳中の禁酒" },
+        { label: "授乳（粉ミルク）", detail: "安全な調製・保存、8回/日（需要に応じて）、半座位での哺乳" },
+        { label: "安全", detail: "後向きチャイルドシート（後部座席）、熱中症予防（車内放置禁止）、仰臥位睡眠（ベッドのスラット間2⅜\"未満）" },
+      ]}
+    ]
+  },
+  {
+    id: "firstweek", group: "infancy",
+    badge: "3〜5日", title: "生後初回（3〜5日）健診", subtitle: "生後3〜5日",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "授乳のための覚醒維持", detail: "授乳のための覚醒期を保てる" },
+        { label: "泣き声と声への鎮静", detail: "不快を泣き声で表現。大人の声に鎮まる" },
+        { label: "腹臥位で頭を横に向ける", detail: "原始反射の確認（モロー・緊張性頸反射）" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長・体重・頭囲", detail: "体重減少10%以内が目安。growth plotへの記録" },
+        { label: "診察：黄疸・脱水・皮疹・眼・心雑音・神経学的所見", detail: "Ortolani/Barlow法も実施" },
+      ]},
+      { name: "スクリーニング", icon: "🔬", items: [
+        { label: "聴覚・新生児マス（全例：未実施分）", detail: "未実施の場合に実施", tag: "universal" },
+        { label: "血圧・視力（選択的）", detail: "リスクに応じて実施", tag: "selective" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認・タバコ曝露", detail: "タバコ・電子タバコ：禁煙支援（800-Quit-NOW）" },
+        { label: "休息と睡眠の確保", detail: "赤ちゃんが寝たときに保護者も休む。同胞の適応サポート" },
+        { label: "体温測定の指導", detail: "直腸体温計を使用。38.0℃以上で受診" },
+        { label: "緊急時計画・CPR", detail: "応急処置キット、緊急連絡先リスト作成" },
+        { label: "授乳（母乳）", detail: "昼は1〜3時間ごと・夜は3時間ごと（24時間で8〜12回）。ビタミンD 400IU/日" },
+        { label: "授乳（粉ミルク）", detail: "2oz/2〜3時間ごと。腹臥位での授乳。哺乳瓶の自立放置禁止" },
+        { label: "安全", detail: "チャイルドシート（後向き・後部座席）、仰臥位睡眠、熱傷予防（湯温＜120°F/49°C）" },
+      ]}
+    ]
+  },
+  {
+    id: "1month", group: "infancy",
+    badge: "1ヶ月", title: "1ヶ月健診", subtitle: "生後1ヶ月",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "社会：親の顔を追視・退屈すると泣く", detail: "社会的微笑みの兆候の確認" },
+        { label: "言語：短い母音音・音への反応", detail: "予期しない音に反応。親の声に鎮まる" },
+        { label: "粗大運動：腹臥位で顎を持ち上げる", detail: "両腕・両脚を同時に動かす" },
+        { label: "微細運動：静止時に指がわずかに開く", detail: "外界への感受性（過剰な泣き・震え等）に注意" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長・体重・頭囲・weight-for-length", detail: "成長曲線にプロット" },
+        { label: "診察：皮膚・大泉門・眼（赤色反射）・心雑音・精巣位置", detail: "Ortolani/Barlow法。神経学的所見の確認" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "産後うつスクリーニング（母親）", detail: "EPDS等の標準化ツール。過去2週間の気分確認", tag: "universal" },
+        { label: "聴覚・新生児マス（未実施分）", detail: "未実施の場合に実施", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "血圧・結核・視力（選択的）", detail: "リスクに応じて実施", tag: "selective" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（住居・食料・DV・環境）", detail: "鉛・カビ・ラドン・農薬のリスク確認。WIC/SNAP紹介" },
+        { label: "産後うつ・家族関係", detail: "産後うつの症状（2日以上続く場合は相談）。保育の準備情報提供" },
+        { label: "乳児の行動・発達", detail: "眠くなったらベッドへ（覚醒のまま）。おしゃぶりの検討。メディア禁止。タミータイム開始" },
+        { label: "授乳（母乳）", detail: "8〜12回/日。ビタミンD 400IU/日継続" },
+        { label: "授乳（粉ミルク）", detail: "24〜27oz/日。半座位での授乳。哺乳瓶の自立放置禁止" },
+        { label: "安全", detail: "後向きチャイルドシート（後部座席）、仰臥位睡眠、転落予防（オムツ替えでも手を離さない）" },
+      ]}
+    ]
+  },
+  {
+    id: "2month", group: "infancy",
+    badge: "2ヶ月", title: "2ヶ月健診", subtitle: "生後2ヶ月",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "社会的笑顔（応答性微笑）", detail: "喜び・不快を音で示す" },
+        { label: "言語：短いクー音", detail: "" },
+        { label: "粗大運動：腹臥位で頭・胸を持ち上げる", detail: "座位保持で頭を安定させる" },
+        { label: "微細運動：手を開いたり閉じたりする", detail: "正中線上で手を合わせる" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長・体重・頭囲・weight-for-length", detail: "成長曲線にプロット" },
+        { label: "診察：皮膚・大泉門・眼・心雑音・斜頸・神経トーン", detail: "Ortolani/Barlow法" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "産後うつスクリーニング（継続）", detail: "標準化ツール使用", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "血圧・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "予防接種", icon: "💉", items: [
+        { label: "定期接種（DTaP・Hib・PCV・IPV・Rota）", detail: "CDCスケジュール確認", tag: "imm" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（住居・食料・保育）", detail: "保育との別れの難しさについて共感的に話す" },
+        { label: "産後うつ・家族計画", detail: "産後うつ継続確認。家族計画について" },
+        { label: "乳児の行動・発達", detail: "親子コミュニケーション。睡眠スケジュール確立。メディア禁止。タミータイム継続" },
+        { label: "授乳（母乳）", detail: "ビタミンD 400IU/日継続。感染症予防のため医薬品報告" },
+        { label: "授乳（粉ミルク）", detail: "6〜8回/日、26〜28oz/日" },
+        { label: "安全（チャイルドシート・睡眠・熱傷・溺水・転落）", detail: "タッチスーパービジョン（高い場所では手を離さない）" },
+      ]}
+    ]
+  },
+  {
+    id: "4month", group: "infancy",
+    badge: "4ヶ月", title: "4ヶ月健診", subtitle: "生後4ヶ月",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "声を出して笑う。不安時に保護者を探す", detail: "" },
+        { label: "言語：声に向く・長いクー音", detail: "" },
+        { label: "粗大運動：肘・手首で支持（腹臥位）・寝返り", detail: "うつ伏せから仰向けへの寝返り" },
+        { label: "微細運動：手を開く・正中線で遊ぶ・物を握る", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長・体重・頭囲・weight-for-length", detail: "成長曲線にプロット" },
+        { label: "診察：皮膚・頭蓋変形・眼・心雑音・発育性股関節形成不全", detail: "Ortolani/Barlow法継続" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "産後うつスクリーニング（継続）", detail: "標準化ツール使用", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "貧血・血圧・聴覚・視力（選択的）", detail: "リスクに応じて実施", tag: "selective" },
+      ]},
+      { name: "予防接種", icon: "💉", items: [
+        { label: "定期接種（2回目）", detail: "CDCスケジュール確認", tag: "imm" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（環境リスク：鉛・職業暴露）", detail: "鉛曝露リスクの評価" },
+        { label: "口腔保健", detail: "冷たいティーリングで歯茎の痛みを和らげる。清潔なガーゼ+フッ素歯磨き粉（米粒大）×2回/日。哺乳瓶を抱えたまま就寝禁止" },
+        { label: "乳児の行動・発達", detail: "泣き止まない場合の対応法確認。日課の確立。メディア禁止。タミータイム継続" },
+        { label: "授乳", detail: "離乳食は6ヶ月まで遅らせる。母乳：ビタミンD 400IU/日・鉄補充開始。粉ミルク：30〜32oz/日" },
+        { label: "安全", detail: "チャイルドシート（高さ/重量制限まで後向き）。乳児用歩行器禁止。小物・プラスチック袋を除去" },
+      ]}
+    ]
+  },
+  {
+    id: "6month", group: "infancy",
+    badge: "6ヶ月", title: "6ヶ月健診", subtitle: "生後6ヶ月",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "鏡で自分に微笑む。名前を呼ばれると向く", detail: "" },
+        { label: "言語：喃語（ga, ma, ba）", detail: "" },
+        { label: "粗大運動：仰向けから腹臥位への寝返り・短時間支持なし座位", detail: "" },
+        { label: "微細運動：手から手へ渡す・4本指で小物をかき集める・物を叩く", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長・体重・頭囲・weight-for-length", detail: "" },
+        { label: "診察：眼球運動・眼・心雑音・大腿動脈・発育性股関節形成不全・神経トーン", detail: "" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "産後うつスクリーニング（継続）", detail: "", tag: "universal" },
+        { label: "口腔保健（歯科専門家不在の場合）", detail: "フッ化物源の評価", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "血圧・聴覚・鉛・結核・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "予防接種", icon: "💉", items: [
+        { label: "定期接種（3回目）＋インフルエンザワクチン", detail: "CDCスケジュール確認", tag: "imm" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（住居・食料・タバコ・産後うつ）", detail: "" },
+        { label: "相互的遊び・読み聞かせ・メディア禁止", detail: "赤ちゃんはハイチェア/直立位で親と顔を合わせて食事" },
+        { label: "口腔保健（フッ化物・歯磨き）", detail: "軟歯ブラシ+フッ素歯磨き粉（米粒大）×2回/日。スプーンの共用禁止" },
+        { label: "離乳食の開始", detail: "準備サイン確認後に単品食品から導入。鉄豊富な食品。野菜・果物は洗う。果汁2〜4oz/日まで" },
+        { label: "安全（チャイルドシート・睡眠・階段・窓・溺水・中毒）", detail: "Poison Help: 800-222-1222。プール・浴槽のタッチスーパービジョン" },
+      ]}
+    ]
+  },
+  {
+    id: "9month", group: "infancy",
+    badge: "9ヶ月", title: "9ヶ月健診", subtitle: "生後9ヶ月",
+    note: "標準化発達スクリーニング推奨",
+    sections: [
+      { name: "発達サーベイランス（標準化検査推奨）", icon: "🧠", items: [
+        { label: "基本的ジェスチャー（手を差し出す・バイバイ）・いないいないばあ", detail: "名前に一貫して反応" },
+        { label: "言語：「ダダ・ママ」非特異的・文脈的理解・親の音の模倣", detail: "「瓶はどこ？」などへの反応" },
+        { label: "粗大運動：支持なし座位・つかまり立ち・四つ這い", detail: "" },
+        { label: "微細運動：3指+親指つまみ・意図的に離す・物を叩き合わせる・手づかみ食べ", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長・体重・頭囲・weight-for-length", detail: "" },
+        { label: "診察：頭蓋変形・眼球運動・心雑音・大腿動脈・神経トーン", detail: "パラシュート反射の誘発" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "発達スクリーニング（標準化ツール）", detail: "ASQ-3等を使用", tag: "universal" },
+        { label: "口腔保健（歯科専門家不在の場合）", detail: "", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "血圧・聴覚・鉛・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（DV・家族サポート）", detail: "National DV Hotline: 800-799-SAFE" },
+        { label: "乳児の行動・発達", detail: "日課の維持。分離不安への対応（気質に合わせる）。因果関係のおもちゃ。読み聞かせ" },
+        { label: "しつけ（前向きな規律）", detail: "「ダメ」の使いすぎを避ける。気を散らす。ロールモデルになる" },
+        { label: "栄養・授乳（テーブルフード・断乳計画）", detail: "3食+2〜3おやつ。コップへの移行計画" },
+        { label: "安全（チャイルドシート後向き継続・銃・熱傷・中毒・溺水・転落・窓ガード）", detail: "後部座席で後向き（少なくとも2歳まで）" },
+      ]}
+    ]
+  },
+  {
+    id: "12month", group: "infancy",
+    badge: "12ヶ月", title: "12ヶ月健診", subtitle: "1歳",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "社会：隠れた物を探す・新しいジェスチャーを模倣", detail: "" },
+        { label: "言語：「ダダ・ママ」特異的・ダダ・ママ以外の1語・ジェスチャー付き指示に従う", detail: "" },
+        { label: "粗大運動：初めての一人歩き・支持なし立位", detail: "" },
+        { label: "微細運動：コップに物を落とす・2指ピンチ・手づかみ食べ", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長・体重・頭囲・weight-for-length", detail: "" },
+        { label: "診察：眼・歯の不整/着色・腹部腫瘤・歩行・把握力・精巣下降・母斑", detail: "" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "貧血スクリーニング（高有病率地域/Medicaid対象）", detail: "", tag: "universal" },
+        { label: "鉛スクリーニング（高有病率地域/Medicaid対象）", detail: "", tag: "universal" },
+        { label: "口腔保健（歯科専門家不在の場合）", detail: "", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "血圧・聴覚・鉛（低有病率/非Medicaid）・結核・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "予防接種", icon: "💉", items: [
+        { label: "定期接種（MMR・水痘・HepA・PCV4回目等）", detail: "CDCスケジュール確認", tag: "imm" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（住居・食料・タバコ・薬物・社会的繋がり）", detail: "" },
+        { label: "ルーティン確立（食事・昼寝・就寝・歯磨き）", detail: "1日1回の昼寝継続。就寝前に読み聞かせ。メディア禁止（例外あり）" },
+        { label: "食事・食欲変化", detail: "自己食べを促す。小さく硬い食品を避ける。3食+2〜3おやつ。子どもが食べる量を決める" },
+        { label: "歯科ホーム確立", detail: "12ヶ月または第一歯萌出後に歯科受診。フッ素入り歯磨き粉（米粒大）×2回/日。哺乳瓶（水のみ）に移行" },
+        { label: "安全（チャイルドシート・階段ゲート・窓ガード・溺水・日焼け・ペット・中毒）", detail: "" },
+      ]}
+    ]
+  },
+  {
+    id: "15month", group: "early",
+    badge: "15ヶ月", title: "15ヶ月健診", subtitle: "1歳3ヶ月",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "社会：落書きを模倣・コップからほぼこぼさず飲む・要求/助けを求めて指差し", detail: "" },
+        { label: "言語：名前以外の3語・ジェスチャーなしの指示に従う", detail: "" },
+        { label: "粗大運動：しゃがんで物を拾う・数段這い上がる・走る", detail: "" },
+        { label: "微細運動：クレヨンで印をつける・容器への出し入れ", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長・体重・頭囲・weight-for-length", detail: "" },
+        { label: "診察：眼・虫歯/プラーク/脱灰/着色・腹部腫瘤・母斑・歩行", detail: "" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "口腔保健（歯科専門家不在の場合）", detail: "", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "貧血・血圧・聴覚・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "コミュニケーション・社会発達（2択の提供・人見知り対応）", detail: "シンプルな言葉で言語発達を促す" },
+        { label: "睡眠ルーティン（一貫した就寝ルーティン・夜泣き対応）", detail: "眠そうなうちに就寝。ぬいぐるみ等による自己慰安" },
+        { label: "気質・行動・しつけ", detail: "環境を整えかんしゃくを予防。良い行動を称える。タイムアウトの活用" },
+        { label: "健康な歯（歯科受診・フッ素入り歯磨き粉×2回/日）", detail: "就寝時の哺乳瓶は水のみ" },
+        { label: "安全（チャイルドシート・中毒・転落・火災警報器）", detail: "全電話・携帯にPoison Help: 800-222-1222" },
+      ]}
+    ]
+  },
+  {
+    id: "18month", group: "early",
+    badge: "18ヶ月", title: "18ヶ月健診", subtitle: "1歳6ヶ月",
+    note: "ASDスクリーニング（M-CHAT-R/F等）推奨",
+    sections: [
+      { name: "発達サーベイランス（ASD・標準化発達検査推奨）", icon: "🧠", items: [
+        { label: "社会：他者と遊ぶ・自分で着脱を助ける・絵本の絵を指差す", detail: "スプーンですくい始める" },
+        { label: "言語：2つの身体部位を識別・5つの物の名を言う", detail: "" },
+        { label: "粗大運動：手を持ってもらい階段を上る・小さな椅子に座る", detail: "おもちゃを持ちながら歩く" },
+        { label: "微細運動：自発的な落書き・立位で小さなボールを数フィート投げる", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長・体重・頭囲・weight-for-length", detail: "" },
+        { label: "診察：歩行・眼・歯・腹部腫瘤・母斑", detail: "" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "ASDスクリーニング（M-CHAT-R/F等）", detail: "自閉症スペクトラム障害の標準化スクリーニング", tag: "universal" },
+        { label: "発達スクリーニング（標準化ツール）", detail: "ASQ-3等を使用", tag: "universal" },
+        { label: "口腔保健（歯科専門家不在の場合）", detail: "", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "貧血・血圧・聴覚・鉛・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "気質・発達・しつけ（トイレトレーニング準備）", detail: "2時間乾燥・濡れの認識・パンツ上下できる・排便サインを示せる" },
+        { label: "コミュニケーション・読み聞かせ・歌", detail: "感情の言葉を使う" },
+        { label: "メディア使用（高品質な番組のみ1時間未満/日）", detail: "食事中のTV禁止。テクノロジーフリー遊びの時間を設ける" },
+        { label: "健康な栄養（多様な食品・牛乳16〜24oz/日・果汁4oz/日まで）", detail: "" },
+        { label: "安全（チャイルドシート・中毒・熱傷・火災・転落・銃）", detail: "" },
+      ]}
+    ]
+  },
+  {
+    id: "2year", group: "early",
+    badge: "2歳", title: "2歳健診", subtitle: "2歳",
+    note: "ASDスクリーニング推奨",
+    sections: [
+      { name: "発達サーベイランス（ASDスクリーニング推奨）", icon: "🧠", items: [
+        { label: "社会：並行遊び・服を脱ぐ・スプーンでうまくすくう", detail: "" },
+        { label: "言語：50語・2語句・5つの身体部位・見知らぬ人への50%理解度", detail: "" },
+        { label: "粗大運動：ボールを蹴る・両足で跳ぶ・協調的な走り", detail: "" },
+        { label: "微細運動：物を積む・本のページをめくる・ノブ・蓋等を手で回す・線を引く", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長（立位優先）・体重・BMI", detail: "BMI計算開始。成長曲線にプロット" },
+        { label: "診察：眼・歯の状態・腹部腫瘤・母斑・言語発達・指示への従い方", detail: "" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "ASDスクリーニング（M-CHAT-R/F等）", detail: "自閉症スペクトラム障害の標準化スクリーニング", tag: "universal" },
+        { label: "鉛スクリーニング（高有病率/Medicaid対象）", detail: "", tag: "universal" },
+        { label: "口腔保健（歯科専門家不在の場合）", detail: "", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "貧血・血圧・脂質・聴覚・鉛（低有病率）・結核・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（DV・住居・食料・タバコ・薬物・保護者の健康）", detail: "" },
+        { label: "気質・行動（良い行動を称える・感情表現・自由遊び60分/日）", detail: "メディア1時間以内/日" },
+        { label: "言語発達の評価（適切な言語モデル・毎日読み聞かせ）", detail: "1〜2段階の指示に従えるか確認" },
+        { label: "トイレトレーニング（準備確認後に開始・手洗い指導）", detail: "1日最大10回のトイレ休憩。リラックスした雰囲気で" },
+        { label: "安全（チャイルドシート・屋外監視・自転車ヘルメット・銃）", detail: "" },
+      ]}
+    ]
+  },
+  {
+    id: "2half", group: "early",
+    badge: "2歳半", title: "2歳6ヶ月健診", subtitle: "2歳6ヶ月",
+    note: "標準化発達スクリーニング推奨",
+    sections: [
+      { name: "発達サーベイランス（標準化検査推奨）", icon: "🧠", items: [
+        { label: "社会：トイレで排尿・手洗い・想像遊び・「見て！」と言う", detail: "フォークで食物を刺せる" },
+        { label: "言語：代名詞を正しく使う", detail: "" },
+        { label: "粗大運動：足を交互に出して階段を上る・転ばずよく走る", detail: "" },
+        { label: "微細運動：縦線を模写・親指と指でクレヨンを持つ・大きなボールをキャッチ", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "計測：身長（立位）・体重・BMI", detail: "" },
+        { label: "診察：眼・腹部腫瘤・母斑・協調性・言語発達・社会性", detail: "" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "発達スクリーニング（標準化ツール）", detail: "", tag: "universal" },
+        { label: "口腔保健（歯科専門家不在の場合）", detail: "", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "貧血・血圧・聴覚・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "家族のルーティン（規則正しい食事・就寝・楽しい家族活動）", detail: "一貫したルールと独立性のバランス" },
+        { label: "言語促進（毎日読み聞かせ・図書館利用）", detail: "子どもの話をしっかり聞く。正しい文法でモデルを示す" },
+        { label: "社会発達（他の子どもとの遊び・2択・メディア1時間以内/日）", detail: "まだ協力遊びには早い。2択で自律性促進" },
+        { label: "就学前準備（集団保育・プレスクール・トイレトレーニング継続）", detail: "1〜2時間おきにトイレへ。称賛・リラックスした環境" },
+        { label: "安全（チャイルドシート・屋外監視・溺水予防・紫外線・煙感知器）", detail: "" },
+      ]}
+    ]
+  },
+  {
+    id: "3year", group: "early",
+    badge: "3歳", title: "3歳健診", subtitle: "3歳",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "社会：一人でトイレ排尿・コートを自分で着る・独立して食事・協力遊び・物の共有", detail: "" },
+        { label: "言語：3語文・見知らぬ人への75%理解度・比較語・前置詞（〜の上/下）の理解", detail: "本やTVから話を伝える" },
+        { label: "粗大運動：三輪車をこぐ・ソファ/椅子へ乗り降り・前方へ跳ぶ", detail: "" },
+        { label: "微細運動：丸を描く・頭ともう1つの部位を持つ人を描く・子ども用ハサミで切る", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "血圧測定（正常値と比較）", detail: "" },
+        { label: "計測：身長・体重・BMI", detail: "成長曲線にプロット" },
+        { label: "診察：眼（赤色反射・斜視）・歯・腹部腫瘤・母斑・言語発達の明瞭さ", detail: "" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "視力スクリーニング（視力表使用）", detail: "3歳から視力検査を開始", tag: "universal" },
+        { label: "口腔保健（歯科専門家不在の場合）", detail: "", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "貧血・聴覚・鉛・結核（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（住居・食料・タバコ・薬物・家族内の肯定的交流）", detail: "" },
+        { label: "兄弟・仲間との遊び（ファンタジー遊び・インタラクティブゲーム）", detail: "順番を教える" },
+        { label: "読み書き活動の促進（毎日読み聞かせ・歌・韻を踏む遊び）", detail: "友達・経験について話しかける" },
+        { label: "健康な栄養・身体活動（水・低脂肪牛乳16〜24oz/日・野菜・果物）", detail: "身体活動を促す。メディア1時間以内/日" },
+        { label: "安全（チャイルドシート・窒息予防・歩行者安全・窓ガード・溺水・ペット・銃）", detail: "" },
+      ]}
+    ]
+  },
+  {
+    id: "4year", group: "early",
+    badge: "4歳", title: "4歳健診", subtitle: "4歳",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "社会：一人でトイレで排便・歯磨き・ほぼ一人で着脱・想像遊びが発達", detail: "" },
+        { label: "言語：4語文・見知らぬ人への100%理解度・絵を認識して描く・ボード/カードゲームのルール", detail: "" },
+        { label: "粗大運動：支持なしで階段を足を交互に上る・片足でスキップ", detail: "" },
+        { label: "微細運動：3つ以上の身体部位を持つ人を描く・単純な十字・中くらいのボタン・鉛筆の持ち方", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "血圧・計測：身長・体重・BMI", detail: "" },
+        { label: "診察：歯・鼻詰まり・発疹・眼・腹部・微細/粗大運動・言語の流暢さ", detail: "正式な運動評価（Formal motor assessment）を実施" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "聴覚スクリーニング", detail: "標準的な聴力検査", tag: "universal" },
+        { label: "口腔保健（歯科専門家不在の場合）", detail: "", tag: "universal" },
+        { label: "視力スクリーニング", detail: "視力表使用", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "貧血・脂質・鉛・結核（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "予防接種", icon: "💉", items: [
+        { label: "定期接種（DTaP・IPV・MMR・水痘の4〜6歳追加接種）", detail: "CDCスケジュール確認", tag: "imm" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（住居・食料・DV・地域の安全・コミュニティ参加）", detail: "DV防止のルール教育（秘密を強制する大人・性的な関心を示す大人を信用しない）" },
+        { label: "就学準備（言語理解・感情認識・他の子との遊び）", detail: "プレスクールへの関与と子どもの学習内容の把握" },
+        { label: "健康な栄養・習慣（水・低脂肪牛乳・就寝ルーティン・歯磨き2回/日）", detail: "豆粒大のフッ素歯磨き粉使用" },
+        { label: "メディア使用（1時間/日以内・寝室のTVなし・身体活動の確保）", detail: "" },
+        { label: "安全（前向きチャイルドシート・屋外監視・水泳安全・紫外線・ペット・銃）", detail: "" },
+      ]}
+    ]
+  },
+  {
+    id: "5_6year", group: "middle",
+    badge: "5・6歳", title: "5・6歳健診", subtitle: "5〜6歳（年1回）",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "片足バランス・跳ぶ・スキップ・結び目を作る", detail: "" },
+        { label: "6つ以上の身体部位を持つ人を描く・文字/数字を書く・四角/三角を模写", detail: "" },
+        { label: "良い発音・言語力・10まで数える・4色以上命名・簡単な指示に従う", detail: "最低限の手助けで着衣" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "血圧・計測：身長・体重・BMI", detail: "" },
+        { label: "診察：眼球運動・虫歯・歯肉炎・不正咬合・微細/粗大運動・歩行", detail: "" },
+      ]},
+      { name: "スクリーニング（5歳：全例）", icon: "🔬", items: [
+        { label: "聴覚スクリーニング", detail: "", tag: "universal" },
+        { label: "口腔保健（歯科専門家不在の場合）", detail: "", tag: "universal" },
+        { label: "視力スクリーニング", detail: "", tag: "universal" },
+        { label: "貧血・鉛・結核（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "スクリーニング（6歳：全例）", icon: "🔬", items: [
+        { label: "聴覚・視力スクリーニング", detail: "", tag: "universal" },
+        { label: "貧血・脂質・鉛・結核（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（地域・家庭内暴力・食料の安全・家族の薬物使用）", detail: "感情的安全とセルフエスティームの育成" },
+        { label: "発達・メンタルヘルス（家庭のルール・役割・怒りのコントロール）", detail: "いじめへの対処法（保護者/信頼できる大人に話す）を教える" },
+        { label: "就学準備・登校・放課後ケア（就寝ルーティン・朝食）", detail: "保護者と教師のコミュニケーション。特別支援（IEP）の有無" },
+        { label: "身体発育・口腔保健・栄養・運動（年2回歯科・1日2回歯磨き＋フロス）", detail: "朝食・野菜・果物。60分/日の身体活動" },
+        { label: "安全（ブースターシート・道路安全・ヘルメット・水泳・性的虐待予防）", detail: "" },
+      ]}
+    ]
+  },
+  {
+    id: "7_8year", group: "middle",
+    badge: "7・8歳", title: "7・8歳健診", subtitle: "7〜8歳（年1回）",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "社会的・感情的能力（自己調整含む）の発達", detail: "健康的な栄養・身体活動行動" },
+        { label: "家族・大人・仲間との支持的関係", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "血圧・計測：身長・体重・BMI", detail: "" },
+        { label: "診察：虫歯・歯肉炎・不正咬合・SMR（性的成熟度）・股関節/膝関節/足関節・歩行", detail: "脊柱側弯の評価" },
+      ]},
+      { name: "スクリーニング（7歳：選択的のみ）", icon: "🔬", items: [
+        { label: "貧血・聴覚・口腔保健・結核・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "スクリーニング（8歳：全例）", icon: "🔬", items: [
+        { label: "聴覚・視力スクリーニング", detail: "", tag: "universal" },
+        { label: "貧血・脂質・口腔保健・結核（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（地域・家庭内暴力・食料の安全・薬物・インターネット安全）", detail: "PCは家庭の見える場所に設置。フィルタリングソフトの導入" },
+        { label: "発達・メンタルヘルス（自立・ルール・思春期の変化への準備）", detail: "生殖器の変化について簡単に説明" },
+        { label: "就学（学業・欠席・放課後活動・IEP）", detail: "いじめ対処法" },
+        { label: "身体発育・口腔保健・栄養・運動（年2回歯科・1日2回歯磨き＋フロス）", detail: "60分/日の身体活動。スクリーンタイム制限" },
+        { label: "安全（ブースターシート・ヘルメット・水泳・性的虐待予防・銃）", detail: "" },
+      ]}
+    ]
+  },
+  {
+    id: "9_10year", group: "middle",
+    badge: "9・10歳", title: "9・10歳健診", subtitle: "9〜10歳（年1回）",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "社会的・感情的能力（自己調整含む）・独立した意思決定", detail: "" },
+        { label: "支持的な関係・自己効力感と希望", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "血圧・計測：身長・体重・BMI", detail: "" },
+        { label: "診察：自傷のサイン・SMR・背部（脊柱側弯症の確認）", detail: "" },
+      ]},
+      { name: "スクリーニング（9歳：全例）", icon: "🔬", items: [
+        { label: "脂質スクリーニング（9〜11歳の間に1回）", detail: "空腹時脂質プロファイル", tag: "universal" },
+        { label: "貧血・聴覚・口腔保健・結核・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "スクリーニング（10歳：全例）", icon: "🔬", items: [
+        { label: "脂質（未実施の場合）・聴覚・視力スクリーニング", detail: "", tag: "universal" },
+        { label: "貧血・口腔保健・結核（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（地域・家庭内暴力・食料の安全・薬物・インターネット安全）", detail: "" },
+        { label: "発達・メンタルヘルス（思春期・性的発達の説明・月経/射精/体の変化）", detail: "思春期の新しい行動への準備。友人関係の重要性" },
+        { label: "就学（学業・いじめ・中学への移行）", detail: "特別支援（IEP）への積極的関与" },
+        { label: "身体発育・口腔保健・栄養・運動（年2回歯科・1日2回歯磨き＋フロス）", detail: "60分/日の身体活動。体重の悩みがある場合は相談" },
+        { label: "安全（ブースターシートから通常シートベルトへ・ヘルメット・水泳・銃：自殺リスク含む）", detail: "" },
+      ]}
+    ]
+  },
+  {
+    id: "early_adol", group: "adolescent",
+    badge: "11〜14歳", title: "早期思春期（11〜14歳）健診", subtitle: "11〜14歳（年1回）",
+    note: "12歳からうつスクリーニング開始。一部を保護者なしで面接することを推奨。",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "自己効力感・希望・社会的能力・コミュニティへの参加", detail: "" },
+        { label: "ウェルネス行動・情緒的/社会的/道徳的能力", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "血圧・計測：身長・体重・BMI", detail: "" },
+        { label: "診察：ニキビ・黒色表皮腫・異常な母斑・ピアス・自傷のサイン・脊柱側弯", detail: "女性：視診/触診による乳房評価、SMR（乳房/外陰部）。男性：SMR（精巣/外陰部）・乳房肥大・精巣水瘤/ヘルニア/精索静脈瘤" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "うつスクリーニング（12歳から）", detail: "PHQ-A等の標準化ツール", tag: "universal" },
+        { label: "脂質スクリーニング（9〜11歳の間に未実施の場合）", detail: "", tag: "universal" },
+        { label: "聴覚スクリーニング（11〜14歳の間に1回）", detail: "", tag: "universal" },
+        { label: "タバコ・アルコール・薬物スクリーニング", detail: "CRAFFT等のスクリーニングツール", tag: "universal" },
+        { label: "視力スクリーニング（12歳：全例）", detail: "", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "貧血・脂質（未実施）・HIV・口腔保健・STI・結核・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "予防接種", icon: "💉", items: [
+        { label: "Tdap・MenACWY・HPV（11〜12歳）・インフルエンザ等", detail: "CDCスケジュール確認", tag: "imm" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（対人暴力・住居・食料・家族の薬物使用）", detail: "コミュニティへの繋がり・学業・ストレス対処" },
+        { label: "身体発育・口腔保健・栄養・運動・睡眠", detail: "年2回の歯科受診。朝食・野菜・果物・乳製品24oz以上。60分/日の身体活動" },
+        { label: "感情的健康・精神健康（うつ・希死念慮の確認）", detail: "ストレス対処法。気分が悪い時は保護者/信頼できる大人に話す" },
+        { label: "性的発達（思春期の体の変化・性的指向についての情報提供）", detail: "月経・射精・体の変化について。性的指向・性自認の質問に答える" },
+        { label: "リスク低減（禁煙・禁酒・禁薬物・妊娠STI予防・音響外傷）", detail: "禁欲が最も安全。大音量への露出（コンサート・芝刈り機）から耳を守る" },
+        { label: "安全（シートベルト・ヘルメット・飲酒運転拒否・紫外線・銃）", detail: "" },
+      ]}
+    ]
+  },
+  {
+    id: "mid_adol", group: "adolescent",
+    badge: "15〜17歳", title: "中期思春期（15〜17歳）健診", subtitle: "15〜17歳（年1回）",
+    note: "一部を保護者なしで面接。HIV検査（15〜18歳の間に1回）推奨。",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "自己効力感・希望・社会的能力・コミュニティへの参加", detail: "" },
+        { label: "ウェルネス行動・情緒的/社会的/道徳的能力", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "血圧・計測：身長・体重・BMI", detail: "" },
+        { label: "診察：ニキビ・黒色表皮腫・母斑・ピアス・自傷のサイン・脊柱側弯・SMR", detail: "" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "うつスクリーニング（PHQ-A等）", detail: "", tag: "universal" },
+        { label: "脂質スクリーニング（17〜21歳の間に1回）", detail: "", tag: "universal" },
+        { label: "聴覚スクリーニング（15〜17歳の間に1回）", detail: "", tag: "universal" },
+        { label: "HIV検査（15〜18歳の間に1回）", detail: "", tag: "universal" },
+        { label: "タバコ・アルコール・薬物スクリーニング（全例）", detail: "", tag: "universal" },
+        { label: "視力スクリーニング（15歳：全例）", detail: "", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "貧血・HIV（未実施）・口腔保健（〜16歳）・STI・結核・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "予防接種", icon: "💉", items: [
+        { label: "MenACWY追加接種（16歳）・HPV完了確認・インフルエンザ等", detail: "CDCスケジュール確認", tag: "imm" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（対人暴力・住居・食料・家族の薬物使用）", detail: "" },
+        { label: "身体発育・口腔保健・栄養・運動・睡眠", detail: "年2回の歯科受診。60分/日の身体活動。十分な睡眠" },
+        { label: "感情的健康・精神健康（うつ・希死念慮の確認）", detail: "苦しい時期は過ぎ去ることを伝える。保護者/信頼できる大人に話す" },
+        { label: "性的発達（性的指向・性自認・デートDV）", detail: "性的な状況でのNOはNOであることを伝える" },
+        { label: "リスク低減（禁煙/禁酒/禁薬物・妊娠STI予防：長期作用型避妊法IUD/インプラント＋コンドーム）", detail: "緊急避妊薬の認識" },
+        { label: "安全（シートベルト・運転中の携帯禁止・飲酒運転拒否・ヘルメット・紫外線・銃）", detail: "" },
+      ]}
+    ]
+  },
+  {
+    id: "late_adol", group: "adolescent",
+    badge: "18〜21歳", title: "後期思春期（18〜21歳）健診", subtitle: "18〜21歳（年1回）",
+    note: "21歳女性：子宮頸部細胞診（Pap smear）。成人医療への移行の準備。",
+    sections: [
+      { name: "発達サーベイランス", icon: "🧠", items: [
+        { label: "独立した意思決定・自己効力感・希望", detail: "" },
+        { label: "家族・大人・仲間との支持的関係・コミュニティへの参加", detail: "" },
+      ]},
+      { name: "身体計測・診察", icon: "📏", items: [
+        { label: "血圧・計測：身長・体重・BMI", detail: "" },
+        { label: "診察：ニキビ・黒色表皮腫・母斑・ピアス・多毛・自傷のサイン・SMR", detail: "女性：骨盤内診察（適応あれば）。男性：精巣水瘤/ヘルニア/精索静脈瘤/乳房肥大" },
+      ]},
+      { name: "スクリーニング（全例）", icon: "🔬", items: [
+        { label: "子宮頸部細胞診（21歳女性：全例）", detail: "Pap smear（子宮頸部異形成スクリーニング）", tag: "universal" },
+        { label: "うつスクリーニング（PHQ-A等）", detail: "", tag: "universal" },
+        { label: "脂質スクリーニング（17〜21歳の間に1回：未実施の場合）", detail: "", tag: "universal" },
+        { label: "聴覚スクリーニング（18〜21歳の間に1回）", detail: "", tag: "universal" },
+        { label: "HIV検査（15〜18歳の間に未実施の場合）", detail: "", tag: "universal" },
+        { label: "タバコ・アルコール・薬物スクリーニング（全例）", detail: "", tag: "universal" },
+      ]},
+      { name: "スクリーニング（選択的）", icon: "⚡", items: [
+        { label: "貧血・HIV・STI・結核・視力（選択的）", detail: "", tag: "selective" },
+      ]},
+      { name: "予防接種", icon: "💉", items: [
+        { label: "HPV（21歳まで）・MenACWY・インフルエンザ等・不足分の補填", detail: "CDCスケジュール確認", tag: "imm" },
+      ]},
+      { name: "Anticipatory Guidance", icon: "💬", items: [
+        { label: "SDH確認（対人暴力・DV・住居・食料・薬物使用）", detail: "National DV Hotline: 800-799-SAFE（7233）" },
+        { label: "身体的健康と健康増進（年2回歯科・朝食・60分/日身体活動・十分な睡眠）", detail: "成人医療への移行の準備。女性：葉酸摂取（妊娠を考えている場合）" },
+        { label: "感情的健康・精神健康（うつ・希死念慮の確認）", detail: "性的指向・性自認・将来の関係・家族計画について" },
+        { label: "リスク低減（禁煙/禁酒/禁薬物・妊娠STI予防：長期作用型避妊法＋コンドーム）", detail: "緊急避妊薬の認識。他者の処方薬の共有禁止" },
+        { label: "安全（シートベルト・運転中の携帯禁止・飲酒運転拒否・紫外線・銃：自殺リスク含む）", detail: "" },
+      ]}
+    ]
+  },
+];
+
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+let checkedState = {};
+let currentFilter = 'all';
+let currentSearch = '';
+
+function getKey(visitId, sectionIdx, itemIdx) {
+  return `${visitId}__${sectionIdx}__${itemIdx}`;
+}
+
+// ═══════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════
+function renderAll() {
+  renderNav();
+  renderVisits();
+  updateStats();
+}
+
+function renderNav() {
+  const groups = [
+    { id: 'infancy', label: '🍼 乳児期', ids: ['prenatal','newborn','firstweek','1month','2month','4month','6month','9month','12month'] },
+    { id: 'early', label: '🧒 幼児期', ids: ['15month','18month','2year','2half','3year','4year'] },
+    { id: 'middle', label: '📚 学童期', ids: ['5_6year','7_8year','9_10year'] },
+    { id: 'adolescent', label: '🌱 思春期', ids: ['early_adol','mid_adol','late_adol'] },
+  ];
+
+  let html = '';
+  for (const g of groups) {
+    html += `<div class="nav-group"><div class="nav-group-header">${g.label}</div>`;
+    for (const id of g.ids) {
+      const visit = VISIT_DATA.find(v => v.id === id);
+      if (!visit) continue;
+      const { done, total } = getVisitProgress(visit);
+      const pct = total > 0 ? Math.round(done / total * 100) : 0;
+      html += `<a class="nav-item" href="#card-${id}">
+        <span>${visit.badge}</span>
+        <div class="nav-progress"><div class="nav-progress-fill" style="width:${pct}%"></div></div>
+      </a>`;
+    }
+    html += `</div>`;
+  }
+  document.getElementById('navContent').innerHTML = html;
+}
+
+function getVisitProgress(visit) {
+  let total = 0, done = 0;
+  visit.sections.forEach((sec, si) => {
+    sec.items.forEach((item, ii) => {
+      total++;
+      if (checkedState[getKey(visit.id, si, ii)]) done++;
+    });
+  });
+  return { done, total };
+}
+
+function renderVisits() {
+  const container = document.getElementById('visitContainer');
+  const query = currentSearch.trim().toLowerCase();
+
+  let visibleCount = 0;
+  let html = '';
+
+  for (const visit of VISIT_DATA) {
+    if (currentFilter !== 'all' && visit.group !== currentFilter) continue;
+
+    // Search filter
+    if (query) {
+      const haystack = (visit.title + visit.subtitle + visit.sections.map(s =>
+        s.name + s.items.map(i => i.label + i.detail).join(' ')
+      ).join(' ')).toLowerCase();
+      if (!haystack.includes(query)) continue;
+    }
+
+    visibleCount++;
+    html += buildVisitCard(visit, query);
+  }
+
+  if (visibleCount === 0) {
+    html = `<div class="empty-state">🔍 該当する健診・項目が見つかりませんでした。</div>`;
+  }
+
+  container.innerHTML = html;
+  addEventListeners();
+}
+
+function buildVisitCard(visit, query = '') {
+  const { done, total } = getVisitProgress(visit);
+
+  let sectionsHtml = '';
+  for (let si = 0; si < visit.sections.length; si++) {
+    const sec = visit.sections[si];
+    const icons = { 'スクリーニング': '🔬', '発達サーベイランス': '🧠', '身体計測・診察': '📏', 'Anticipatory Guidance': '💬', '予防接種': '💉' };
+    const icon = sec.icon || '📋';
+
+    sectionsHtml += `<div class="visit-section-header"><span class="section-icon">${icon}</span>${esc(sec.name)}</div>`;
+
+    for (let ii = 0; ii < sec.items.length; ii++) {
+      const item = sec.items[ii];
+      const key = getKey(visit.id, si, ii);
+      const checked = checkedState[key] ? 'checked' : '';
+
+      let labelHtml = query ? highlight(esc(item.label), query) : esc(item.label);
+      let detailHtml = item.detail ? (query ? highlight(esc(item.detail), query) : esc(item.detail)) : '';
+
+      let tagHtml = '';
+      if (item.tag === 'universal') tagHtml = '<span class="tag tag-universal">全例</span>';
+      else if (item.tag === 'selective') tagHtml = '<span class="tag tag-selective">選択的</span>';
+      else if (item.tag === 'imm') tagHtml = '<span class="tag tag-imm">接種</span>';
+
+      sectionsHtml += `
+        <div class="check-row ${checked}" data-key="${key}" onclick="toggleCheck('${key}')">
+          <div class="check-cell">
+            <div class="checkbox"><span class="checkbox-check">✓</span></div>
+          </div>
+          <div class="row-content">
+            <div class="row-label">${tagHtml}${labelHtml}</div>
+            ${detailHtml ? `<div class="row-detail">${detailHtml}</div>` : ''}
+          </div>
+        </div>`;
+    }
+  }
+
+  const noteHtml = visit.note ? `<div class="alert-row">⚠️ ${esc(visit.note)}</div>` : '';
+
+  return `
+  <div class="visit-card" id="card-${visit.id}">
+    <div class="visit-header" onclick="toggleCard('card-${visit.id}')">
+      <div class="visit-header-left">
+        <span class="visit-badge">${esc(visit.badge)}</span>
+        <div>
+          <div class="visit-title">${esc(visit.title)}</div>
+          <div class="visit-subtitle">${esc(visit.subtitle)}</div>
+        </div>
+      </div>
+      <div class="visit-header-right">
+        <span class="visit-complete-count">${done}/${total}</span>
+        <div class="collapse-btn">▼</div>
+      </div>
+    </div>
+    <div class="visit-body">
+      ${noteHtml}
+      ${sectionsHtml}
+      <div class="card-reset">
+        <button class="btn-reset" onclick="event.stopPropagation();resetVisit('${visit.id}')">↺ この健診をリセット</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function highlight(text, query) {
+  if (!query) return text;
+  const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+  return text.replace(regex, '<mark class="highlight">$1</mark>');
+}
+
+function esc(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function addEventListeners() {
+  // Already handled via inline onclick
+}
+
+// ═══════════════════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════════════════
+function toggleCheck(key) {
+  checkedState[key] = !checkedState[key];
+  saveState();
+  // Update only that row
+  const row = document.querySelector(`[data-key="${key}"]`);
+  if (row) {
+    if (checkedState[key]) row.classList.add('checked');
+    else row.classList.remove('checked');
+    // Update checkbox
+    const cb = row.querySelector('.checkbox');
+    const check = row.querySelector('.checkbox-check');
+    if (checkedState[key]) {
+      cb.style.background = 'var(--check-yes)';
+      cb.style.borderColor = 'var(--check-yes)';
+      check.style.display = 'block';
+    } else {
+      cb.style.background = '';
+      cb.style.borderColor = '';
+      check.style.display = 'none';
+    }
+  }
+  updateStats();
+  updateNavProgress();
+}
+
+function toggleCard(cardId) {
+  const card = document.getElementById(cardId);
+  if (card) card.classList.toggle('collapsed');
+}
+
+function expandAll() {
+  document.querySelectorAll('.visit-card').forEach(c => c.classList.remove('collapsed'));
+}
+
+function collapseAll() {
+  document.querySelectorAll('.visit-card').forEach(c => c.classList.add('collapsed'));
+}
+
+function resetVisit(visitId) {
+  const visit = VISIT_DATA.find(v => v.id === visitId);
+  if (!visit) return;
+  if (!confirm(`「${visit.title}」のチェックをすべてリセットしますか？`)) return;
+  visit.sections.forEach((sec, si) => {
+    sec.items.forEach((_, ii) => {
+      delete checkedState[getKey(visitId, si, ii)];
+    });
+  });
+  saveState();
+  renderVisits();
+  updateStats();
+}
+
+function resetAll() {
+  if (!confirm('すべての健診のチェックをリセットしますか？')) return;
+  checkedState = {};
+  saveState();
+  renderVisits();
+  updateStats();
+}
+
+function setFilter(filter, el) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  renderVisits();
+}
+
+function handleSearch(val) {
+  currentSearch = val;
+  renderVisits();
+}
+
+// ═══════════════════════════════════════════════════════
+// STATS
+// ═══════════════════════════════════════════════════════
+function updateStats() {
+  let total = 0, done = 0;
+  for (const visit of VISIT_DATA) {
+    const p = getVisitProgress(visit);
+    total += p.total;
+    done += p.done;
+  }
+  document.getElementById('totalItems').textContent = total;
+  document.getElementById('doneCount').textContent = done;
+  document.getElementById('pctDone').textContent = total > 0 ? Math.round(done / total * 100) : 0;
+  document.getElementById('globalProgress').style.width = total > 0 ? (done / total * 100) + '%' : '0%';
+
+  // Update visit complete counts
+  for (const visit of VISIT_DATA) {
+    const card = document.getElementById('card-' + visit.id);
+    if (!card) continue;
+    const { done: vd, total: vt } = getVisitProgress(visit);
+    const countEl = card.querySelector('.visit-complete-count');
+    if (countEl) countEl.textContent = `${vd}/${vt}`;
+  }
+}
+
+function updateNavProgress() {
+  // Re-render nav progress bars
+  const navContent = document.getElementById('navContent');
+  if (!navContent) return;
+  for (const visit of VISIT_DATA) {
+    const { done, total } = getVisitProgress(visit);
+    const pct = total > 0 ? Math.round(done / total * 100) : 0;
+    const fill = navContent.querySelector(`a[href="#card-${visit.id}"] .nav-progress-fill`);
+    if (fill) fill.style.width = pct + '%';
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+// PERSISTENCE
+// ═══════════════════════════════════════════════════════
+function saveState() {
+  try { localStorage.setItem('bf_checklist', JSON.stringify(checkedState)); } catch(e) {}
+}
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('bf_checklist');
+    if (s) checkedState = JSON.parse(s);
+  } catch(e) { checkedState = {}; }
+}
+
+// ═══════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════
+loadState();
+renderAll();
+</script>
+</body>
+</html>
